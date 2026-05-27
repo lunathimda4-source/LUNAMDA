@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Batman Style Web App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #050505, #111827);
+      color: #f5f5f5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(255, 196, 0, 0.08), transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 196, 0, 0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 6%;
+    }
+
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #ffc400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #f5f5f5;
+      text-decoration: none;
+      transition: 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: #ffc400;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      align-items: center;
+      min-height: 90vh;
+      padding: 5rem 6%;
+      gap: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text h1 {
+      font-size: 4rem;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-text h1 span {
+      color: #ffc400;
+      text-shadow: 0 0 15px rgba(255, 196, 0, 0.6);
+    }
+
+    .hero-text p {
+      color: #c7c7c7;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+      max-width: 550px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.9rem 1.6rem;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-primary {
+      background: #ffc400;
+      color: #000;
+      box-shadow: 0 0 15px rgba(255, 196, 0, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(255, 196, 0, 0.8);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #f5f5f5;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .btn-secondary:hover {
+      border-color: #ffc400;
+      color: #ffc400;
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .bat-card {
+      width: 360px;
+      height: 460px;
+      border-radius: 24px;
+      background: linear-gradient(145deg, #161616, #0a0a0a);
+      border: 1px solid rgba(255, 196, 0, 0.25);
+      box-shadow:
+        0 0 40px rgba(255, 196, 0, 0.1),
+        inset 0 0 40px rgba(255,255,255,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bat-symbol {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+      color: rgba(255, 196, 0, 0.08);
+    }
+
+    .card-content {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      right: 2rem;
+    }
+
+    .card-content h2 {
+      color: #ffc400;
+      margin-bottom: 1rem;
+    }
+
+    .card-content p {
+      color: #bdbdbd;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .features {
+      padding: 5rem 6%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: #ffc400;
+      margin-bottom: 1rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: rgba(17, 24, 39, 0.8);
+      border: 1px solid rgba(255, 196, 0, 0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: #ffc400;
+      box-shadow: 0 0 20px rgba(255, 196, 0, 0.15);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 1rem;
+      color: #ffc400;
+    }
+
+    .feature-card p {
+      color: #c9c9c9;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: #9ca3af;
+      margin-top: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero-text h1 {
+        font-size: 2.7rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .bat-card {
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <header>
+    <nav>
+      <div class="logo">BAT.APP</div>
+
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Analytics</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>
+        Welcome to the <span>Dark Interface</span>
+      </h1>
+
+      <p>
+        A sleek Batman-inspired web application template with cinematic visuals,
+        futuristic UI elements, glowing accents, and a premium dark-mode design.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="btn btn-primary">Launch App</button>
+        <button class="btn btn-secondary">View Features</button>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <div class="bat-card">
+        <div class="bat-symbol">🦇</div>
+
+        <div class="card-content">
+          <h2>Gotham Control Panel</h2>
+          <p>
+            Monitor activity, manage users, track analytics, and control your
+            application from a stylish dark-themed dashboard.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="section-title">
+      <h2>Core Features</h2>
+      <p>Designed for modern applications with a cinematic superhero feel.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Dark UI Theme</h3>
+        <p>
+          Gotham-inspired black and gold aesthetic with glowing hover effects.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Responsive Layout</h3>
+        <p>
+          Fully optimized for desktops, tablets, and mobile devices.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Modern Components</h3>
+        <p>
+          Stylish cards, buttons, grids, and sections ready for integration.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Fast Customization</h3>
+        <p>
+          Easily replace text, colors, and sections to fit your project.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 BAT.APP — Inspired by Gotham aesthetics.
+  </footer>
+</body>
+</html>
